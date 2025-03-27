@@ -12,15 +12,14 @@
 
 #include "../inc/pipex.h"
 
-void	free_split(char **strs)
+void	free_struct(t_pipex *pp)
 {
-	int	i;
-
-	i = 0;
-	while (strs[i])
+	if (pp)
 	{
-		free(strs[i]);
-		i++;
+		close(pp->pipe_fds[0]);
+		close(pp->pipe_fds[1]);
+		close(pp->fd1);
+		close(pp->fd2);
 	}
-	free(strs);
+	free(pp);
 }

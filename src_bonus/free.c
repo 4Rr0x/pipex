@@ -1,20 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jopedro- <jopedro-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 17:35:23 by jopedro-          #+#    #+#             */
-/*   Updated: 2025/03/11 17:37:34 by jopedro-         ###   ########.fr       */
+/*   Created: 2025/03/12 17:44:37 by jopedro-          #+#    #+#             */
+/*   Updated: 2025/03/12 17:46:39 by jopedro-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	exit_pgm(char *str, int fd, t_pipex *pp)
+void	free_struct(t_pipex *pp)
 {
-	free_struct(pp);
-	ft_putstr_fd(str, fd);
-	exit(1);
+	if (pp)
+	{
+		close(pp->pipe_fds[0]);
+		close(pp->pipe_fds[1]);
+		close(pp->fd1);
+		close(pp->fd2);
+	}
+	free(pp);
+}
+
+void	free_split(char **strs)
+{
+	int	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
 }

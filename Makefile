@@ -40,7 +40,7 @@ TEMP_PATH		= .temp
 
 SRC				= $(addprefix $(SRC_PATH)/, main.c exit.c init_struct.c utils.c parsing.c free.c)
 
-SRC_BONUS		= $(addprefix $(SRC_BONUS_PATH)/, main.c)
+SRC_BONUS		= $(addprefix $(SRC_BONUS_PATH)/, main.c exit.c init_struct.c utils.c parsing.c free.c)
 
 OBJS			= $(SRC:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
 OBJS_BONUS		= $(SRC_BONUS:$(SRC_BONUS_PATH)/%.c=$(BUILDB_PATH)/%.o)

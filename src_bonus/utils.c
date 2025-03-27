@@ -12,29 +12,6 @@
 
 #include "../inc/pipex.h"
 
-void	handle_all(char **av, char **envp, t_pipex *pp)
-{
-	pid_t	pid;
-	pid_t	pid2;
-
-	pid = fork();
-	if (pid == -1)
-		exit_pgm("Error creating pid\n", 2, pp);
-	if (pid == 0)
-		child(av, envp, pp);
-	pid2 = fork();
-	if (pid2 == -1)
-		exit_pgm("Error creating pid2\n", 2, pp);
-	if (pid2 == 0)
-		parent(av, envp, pp);
-	close(pp->fd1);
-	close(pp->fd2);
-	close(pp->pipe_fds[0]);
-	close(pp->pipe_fds[1]);
-	waitpid(pid, NULL, 0);
-	waitpid(pid2, NULL, 0);
-	free_struct(pp);
-}
 
 char	*find_path(char **envp, char *cmd)
 {
@@ -104,4 +81,68 @@ void	parent(char **av, char **envp, t_pipex *pp)
 	close(pp->pipe_fds[1]);
 	close(pp->pipe_fds[0]);
 	exec_command(av[3], envp, pp);
+}
+
+void	do_pipe(char *cmd, char **envp, t_pipex *pp)
+{
+	pid_t	pid;
+
+	if (pipe(pp->pipe_fds) == -1)
+		exit_pgm("Error creating pipe\n", 2, pp);
+	pid = fork();
+	if (pid == -1)
+		exit_pgm("Error creating fork\n", 2, pp);
+	if (!pid)
+	{
+		close(pp->pipe_fds[0]);
+		dup2(pp->pipe_fds[1], 1);
+		exec_command(cmd, envp, pp);
+	}
+	else
+	{
+		close(pp->pipe_fds[1]);
+		dup2(pp->pipe_fds[0], 0);
+	}
+}
+
+void	here_doc_in(char **av, t_pipex *pp)
+{
+	char	*ret;
+
+	close(pp->pipe_fds[0]);
+	while (1)
+	{
+		ret = get_next_line(0);
+		if (ft_strncmp(ret, av[2], ft_strlen(av[2])) == 0)
+		{
+			free(ret);
+			exit_pgm("", 1, pp);
+		}
+		ft_putstr_fd(ret, pp->pipe_fds[1]);
+		free(ret);
+	}
+}
+
+void	here_doc(char **av, int ac, t_pipex *pp)
+{
+	pid_t	pid;
+
+	if (ac < 6)
+	{
+		ft_putstr_fd("Error\nInvalid number of arguments\n", 2);
+		return ;
+	}
+	if(pipe(pp->pipe_fds) == -1)
+		exit_pgm("Error creating pipe\n", 2, pp);
+	pid = fork();
+	if (pid == -1)
+		exit_pgm("Error creating pid\n", 2, pp);
+	if (!pid)
+		here_doc_in(av, pp);
+	else
+	{
+		close(pp->pipe_fds[1]);
+		dup2(pp->pipe_fds[0], 0);
+		wait(NULL);
+	}
 }

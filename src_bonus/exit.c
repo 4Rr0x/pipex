@@ -16,5 +16,8 @@ void	exit_pgm(char *str, int fd, t_pipex *pp)
 {
 	free_struct(pp);
 	ft_putstr_fd(str, fd);
-	exit(1);
+	if (fd == 2)
+		exit(0);
+	else
+		exit (1);
 }
