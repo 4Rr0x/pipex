@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
 
 char	*find_path(char **envp, char *cmd)
@@ -50,6 +50,11 @@ void	exec_command(char *av, char **envp, t_pipex *pp)
 
 	i = 0;
 	cmd = ft_split(av, ' ');
+	if (!cmd[0])
+	{
+		free(cmd);
+		exit_pgm("Command not found\n", 2, pp);
+	}
 	path = find_path(envp, cmd[0]);
 	if (!path)
 	{

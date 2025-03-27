@@ -15,8 +15,8 @@
 #                                     NAMES                                    #
 #==============================================================================#
 
-NAME = pipex
-NAME_BONUS = pipex_bonus
+NAME = pipex_2
+NAME_BONUS = pipex
 
 ### Message Vars
 _SUCCESS 		= [$(GRN)SUCCESS$(D)]
