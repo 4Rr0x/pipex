@@ -21,7 +21,6 @@ t_pipex	*init_struct(void)
 	pp->fd2 = 0;
 	pp->pipe_fds[0] = -1;
 	pp->pipe_fds[1] = -1;
-	pp->here_doc = 0;
 	return (pp);
 }
 

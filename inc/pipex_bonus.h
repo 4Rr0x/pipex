@@ -22,7 +22,6 @@ typedef struct s_pipex
 	int	fd1;
 	int	fd2;
 	int	pipe_fds[2];
-	int	here_doc;
 }	t_pipex;
 
 void	exit_pgm(char *str, int fd, t_pipex *pp);

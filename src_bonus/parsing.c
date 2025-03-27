@@ -23,6 +23,6 @@ int	open_file(char  *file, int flag, t_pipex *pp)
 	else if (flag == 2)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
-		exit_pgm("Error opening file1\n", 2, pp);
+		exit_pgm("Error opening file\n", 2, pp);
 	return (fd);
 }

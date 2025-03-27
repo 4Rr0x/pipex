@@ -27,7 +27,6 @@ int	main(int ac, char **av, char **envp)
 	pp = init_struct();
 	if (ft_strncmp(av[1], "here_doc", 8) == 0)
 	{
-		pp->here_doc = 1;
 		i = 3;
 		pp->fd2 = open_file(av[ac - 1], 2, pp);
 		here_doc(av, ac, pp);
