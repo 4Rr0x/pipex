@@ -16,6 +16,7 @@ int	open_file(char *file, int flag, t_pipex *pp)
 {
 	int	fd;
 
+	fd = -1;
 	if (flag == 0)
 		fd = open(file, O_RDONLY, 0777);
 	else if (flag == 1)
