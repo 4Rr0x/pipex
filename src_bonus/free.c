@@ -23,16 +23,3 @@ void	free_struct(t_pipex *pp)
 	}
 	free(pp);
 }
-
-void	free_gnl(char *line)
-{
-	char	*ln;
-
-	free(line);
-	ln = get_next_line(0);
-	while (ln)
-	{
-		free(ln);
-		ln = get_next_line(0);
-	}
-}

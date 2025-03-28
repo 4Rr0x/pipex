@@ -12,7 +12,6 @@
 
 #include "../inc/pipex_bonus.h"
 
-
 char	*find_path(char **envp, char *cmd)
 {
 	int		i;
@@ -21,7 +20,7 @@ char	*find_path(char **envp, char *cmd)
 	char	*partial;
 
 	i = 0;
-	while (ft_strnstr(envp[i],	"PATH", 4) == 0)
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
 	parr = ft_split(envp[i] + 5, ':');
 	i = 0;
@@ -83,13 +82,14 @@ void	do_pipe(char *cmd, char **envp, t_pipex *pp)
 	{
 		close(pp->pipe_fds[0]);
 		dup2(pp->pipe_fds[1], 1);
+		close(pp->pipe_fds[1]);
 		exec_command(cmd, envp, pp);
 	}
 	else
 	{
 		close(pp->pipe_fds[1]);
 		dup2(pp->pipe_fds[0], 0);
-		waitpid(pid, NULL, 0);
+		close(pp->pipe_fds[0]);
 	}
 }
 
@@ -102,30 +102,31 @@ void	here_doc_in(char **av, t_pipex *pp)
 	{
 		ret = get_next_line(0);
 		if (!ret)
-        {
-            exit_pgm("Error reading input\n", 2, pp);
-        }
+		{
+			exit_pgm("Error reading input\n", 2, pp);
+		}
 		if (ft_strncmp(ret, av[2], ft_strlen(av[2])) == 0)
 		{
 			free(ret);
-            break;
+			break ;
 		}
 		ft_putstr_fd(ret, pp->pipe_fds[1]);
 		free(ret);
 	}
-    close(pp->pipe_fds[1]);
+	close(pp->pipe_fds[1]);
 }
 
 void	here_doc(char **av, int ac, t_pipex *pp)
 {
 	pid_t	pid;
 
+	pp->fd2 = open_file(av[ac - 1], 2, pp);
 	if (ac < 6)
 	{
 		ft_putstr_fd("Error\nInvalid number of arguments\n", 2);
 		return ;
 	}
-	if(pipe(pp->pipe_fds) == -1)
+	if (pipe(pp->pipe_fds) == -1)
 		exit_pgm("Error creating pipe\n", 2, pp);
 	pid = fork();
 	if (pid == -1)

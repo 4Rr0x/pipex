@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	t_pipex *pp;
+	t_pipex	*pp;
 
 	if (ac != 5)
 	{

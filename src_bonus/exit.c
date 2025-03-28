@@ -21,3 +21,12 @@ void	exit_pgm(char *str, int fd, t_pipex *pp)
 	else
 		exit (1);
 }
+
+void	usage(void)
+{
+	ft_putstr_fd("Error\nInvalid number of arguments\n", 2);
+	ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n", 1);
+	ft_putstr_fd("    ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> \
+		<file>\n", 1);
+	exit(1);
+}

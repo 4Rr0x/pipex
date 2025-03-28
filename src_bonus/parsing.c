@@ -12,7 +12,7 @@
 
 #include "../inc/pipex_bonus.h"
 
-int	open_file(char  *file, int flag, t_pipex *pp)
+int	open_file(char *file, int flag, t_pipex *pp)
 {
 	int	fd;
 

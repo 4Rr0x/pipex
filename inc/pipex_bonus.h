@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H_BONUS
-#define PIPEX_H_BONUS
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "../lib/42_libft/libft/libft.h"
-#include <fcntl.h>
-#include <sys/wait.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct s_pipex
 {
@@ -33,6 +33,6 @@ void	execute_pipeline(t_pipex *pp, char **envp, char **av, int ac);
 int		open_file(char *av, int flag, t_pipex *pp);
 void	here_doc(char **av, int ac, t_pipex *pp);
 void	do_pipe(char *cmd, char **envp, t_pipex *pp);
-void	free_gnl();
+void	usage(void);
 
 #endif
