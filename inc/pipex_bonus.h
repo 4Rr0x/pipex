@@ -33,5 +33,6 @@ void	execute_pipeline(t_pipex *pp, char **envp, char **av, int ac);
 int		open_file(char *av, int flag, t_pipex *pp);
 void	here_doc(char **av, int ac, t_pipex *pp);
 void	do_pipe(char *cmd, char **envp, t_pipex *pp);
+void	free_gnl();
 
 #endif

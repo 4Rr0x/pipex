@@ -70,24 +70,6 @@ void	exec_command(char *av, char **envp, t_pipex *pp)
 		exit_pgm("Error executing command\n", 2, pp);
 }
 
-void	child(char **av, char **envp, t_pipex *pp)
-{
-	dup2(pp->pipe_fds[1], STDOUT_FILENO);
-	dup2(pp->fd1, STDIN_FILENO);
-	close(pp->pipe_fds[0]);
-	close(pp->pipe_fds[1]);
-	exec_command(av[2], envp, pp);
-}
-
-void	parent(char **av, char **envp, t_pipex *pp)
-{
-	dup2(pp->pipe_fds[0], STDIN_FILENO);
-	dup2(pp->fd2, STDOUT_FILENO);
-	close(pp->pipe_fds[1]);
-	close(pp->pipe_fds[0]);
-	exec_command(av[3], envp, pp);
-}
-
 void	do_pipe(char *cmd, char **envp, t_pipex *pp)
 {
 	pid_t	pid;
@@ -97,7 +79,7 @@ void	do_pipe(char *cmd, char **envp, t_pipex *pp)
 	pid = fork();
 	if (pid == -1)
 		exit_pgm("Error creating fork\n", 2, pp);
-	if (!pid)
+	if (pid == 0)
 	{
 		close(pp->pipe_fds[0]);
 		dup2(pp->pipe_fds[1], 1);
@@ -107,6 +89,7 @@ void	do_pipe(char *cmd, char **envp, t_pipex *pp)
 	{
 		close(pp->pipe_fds[1]);
 		dup2(pp->pipe_fds[0], 0);
+		waitpid(pid, NULL, 0);
 	}
 }
 
@@ -118,14 +101,19 @@ void	here_doc_in(char **av, t_pipex *pp)
 	while (1)
 	{
 		ret = get_next_line(0);
+		if (!ret)
+        {
+            exit_pgm("Error reading input\n", 2, pp);
+        }
 		if (ft_strncmp(ret, av[2], ft_strlen(av[2])) == 0)
 		{
 			free(ret);
-			exit_pgm("", 1, pp);
+            break;
 		}
 		ft_putstr_fd(ret, pp->pipe_fds[1]);
 		free(ret);
 	}
+    close(pp->pipe_fds[1]);
 }
 
 void	here_doc(char **av, int ac, t_pipex *pp)

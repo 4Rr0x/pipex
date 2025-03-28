@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex_bonus.h"
+#include "../inc/pipex.h"
 
 void	free_struct(t_pipex *pp)
 {
@@ -22,4 +22,17 @@ void	free_struct(t_pipex *pp)
 		close(pp->fd2);
 	}
 	free(pp);
+}
+
+void	free_gnl(char *line)
+{
+	char	*ln;
+
+	free(line);
+	ln = get_next_line(0);
+	while (ln)
+	{
+		free(ln);
+		ln = get_next_line(0);
+	}
 }
