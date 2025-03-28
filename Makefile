@@ -15,8 +15,8 @@
 #                                     NAMES                                    #
 #==============================================================================#
 
-NAME = pipex_2
-NAME_BONUS = pipex
+NAME = pipex
+NAME_BONUS = pipex_bonus
 
 ### Message Vars
 _SUCCESS 		= [$(GRN)SUCCESS$(D)]
@@ -179,6 +179,10 @@ clean: 				## Remove object files
 		if [ -d "$(BUILD_PATH)" ]; then \
 			$(RM) $(BUILD_PATH); \
 			echo "* $(YEL)Removing $(CYA)$(BUILD_PATH)$(D) folder & files$(D): $(_SUCCESS)"; \
+		fi; \
+		if [ -d "$(BUILDB_PATH)" ]; then \
+			$(RM) $(BUILDB_PATH); \
+			echo "* $(YEL)Removing $(CYA)$(BUILDB_PATH)$(D) folder & files$(D): $(_SUCCESS)"; \
 		fi; \
 		if [ -d "$(TEMP_PATH)" ]; then \
 			$(RM) $(TEMP_PATH); \
